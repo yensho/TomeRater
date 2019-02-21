@@ -106,9 +106,9 @@ class TomeRater(object):
             user.read_book(book, rating)
             book.add_rating(rating)
             if hasattr(self.books, str((book.title, book.isbn))):
-                self.books[book] += 1
+                self.books[hash(book)] += 1
             else:
-                self.books[book] = 1
+                self.books[hash(book)] = 1
 
     def add_user(self, name, email, user_books=None):
         user = User(name, email)
@@ -126,7 +126,7 @@ class TomeRater(object):
             print(user)
 
     def most_read_book(self):
-        return max(self.books.keys(), key=lambda x: self.users[x])
+        return max(self.books.keys(), key=lambda x: self.books[x])
 
     def highest_rated_book(self):
         return max(self.books.keys(), key=lambda x: self.books[x].get_average_rating())
